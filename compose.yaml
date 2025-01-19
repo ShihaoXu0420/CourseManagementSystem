@@ -1,10 +1,29 @@
 services:
   mysql:
-    image: 'mysql:latest'
+    image: mysql:8.0.28
+    container_name: mysql
+    platform: linux/amd64
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - MYSQL_DATABASE=course_system_db
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=verysecret
+      - MYSQL_USER=user
+      - TZ=Asia/Tokyo
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_general_ci','--default-time-zone=+09:00']
     ports:
-      - '3306'
+      - 3306:3306
+    security_opt:
+      - seccomp=unconfined
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    environment:
+      - TZ=Asia/Tokyo
+      - LC_ALL=ja_JP.UTF-8
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
