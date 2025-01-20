@@ -19,4 +19,7 @@ public interface MajorRepository {
 
     @Update("UPDATE majors SET name = #{name} WHERE id = #{id}")
     void update(Major major);
+
+    @Delete("DELETE FROM majors WHERE id = #{majorId}")
+    void delete(int majorId);
 }

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MajorsController {
     private final MajorService majorService;
-    private final String SUCCESS = "success";
-    private final String ERROR = "error";
+    private static final String SUCCESS = "success";
+    private static final String ERROR = "error";
 
     @GetMapping("/{majorId}")
     public Result getMajor(@PathVariable("majorId") int majorId) {
@@ -50,6 +50,16 @@ public class MajorsController {
         try {
             MajorDto majorResponse = majorService.updateMajor(majorDto);
             return new Result(SUCCESS, majorResponse);
+        } catch (Exception e) {
+            return new Result(ERROR, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{majorId}")
+    public Result deleteMajor(@PathVariable("majorId") int majorId) {
+        try {
+            majorService.deleteMajor(majorId);
+            return new Result(SUCCESS, null);
         } catch (Exception e) {
             return new Result(ERROR, e.getMessage());
         }

@@ -48,4 +48,12 @@ public class MajorService {
 
         return new MajorDto(major.getId(), major.getName());
     }
+
+    public void deleteMajor(int majorId) {
+        Major major = majorRepository.findById(majorId);
+        if (major == null) {
+            throw new RuntimeException("Major not found");
+        }
+        majorRepository.delete(majorId);
+    }
 }
