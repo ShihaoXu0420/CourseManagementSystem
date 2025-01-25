@@ -1,5 +1,6 @@
 package com.example.CourseManagementSystem.service;
 
+import com.example.CourseManagementSystem.Exception.RecordNotFoundException;
 import com.example.CourseManagementSystem.model.dto.MajorDto;
 import com.example.CourseManagementSystem.model.dto.MajorListDto;
 import com.example.CourseManagementSystem.model.entity.Major;
@@ -32,15 +33,16 @@ public class MajorService {
     public MajorDto addMajor(MajorDto majorDto) {
         Major major = new Major(0, majorDto.getName(), null, null);
         majorRepository.save(major);
-        major = majorRepository.findById(major.getId());
 
-        return new MajorDto(major.getId(), major.getName());
+        majorDto.setId(major.getId());
+
+        return majorDto;
     }
 
     public MajorDto updateMajor(MajorDto majorDto) {
         Major major = majorRepository.findById(majorDto.getId());
         if (major == null) {
-            throw new RuntimeException("Major not found");
+            throw new RecordNotFoundException("Major not found");
         }
         major.setName(majorDto.getName());
         majorRepository.update(major);
@@ -52,7 +54,7 @@ public class MajorService {
     public void deleteMajor(int majorId) {
         Major major = majorRepository.findById(majorId);
         if (major == null) {
-            throw new RuntimeException("Major not found");
+            throw new RecordNotFoundException("Major not found");
         }
         majorRepository.delete(majorId);
     }

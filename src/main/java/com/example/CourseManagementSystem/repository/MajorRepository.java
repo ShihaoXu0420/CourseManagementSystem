@@ -22,4 +22,9 @@ public interface MajorRepository {
 
     @Delete("DELETE FROM majors WHERE id = #{majorId}")
     void delete(int majorId);
+
+    List<Major> findByIds(@Param("ids") int[] ids);
+
+    @Select("SELECT * FROM majors WHERE name = #{major}")
+    Major findByName(String major);
 }
