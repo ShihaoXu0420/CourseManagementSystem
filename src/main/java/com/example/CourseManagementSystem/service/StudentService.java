@@ -10,15 +10,15 @@ import com.example.CourseManagementSystem.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class StudentService {
     private final StudentRepository studentRepository;
     private final MajorRepository majorRepository;
+    private final MajorService majorService;
 
     public StudentDto getStudent(int studentId) {
         Student student = studentRepository.findById(studentId);
@@ -32,10 +32,7 @@ public class StudentService {
     }
 
     public StudentListDto getStudentList() {
-        System.out.println("StudentService.getStudentList");
         List<Student> students = studentRepository.findAll();
-
-        System.out.println("students:---------");
 
         if (students.isEmpty()) return new StudentListDto(List.of());
 
@@ -43,12 +40,7 @@ public class StudentService {
                 .mapToInt(Student::getMajorId)
                 .toArray();
 
-        List<Major> majors = majorRepository.findByIds(majorIds);
-
-        HashMap<Integer, String> majorMap = new HashMap<>();
-        for (Major major : majors) {
-            majorMap.put(major.getId(), major.getName());
-        }
+        Map<Integer, String> majorMap = majorService.getMajorMap(majorIds);
 
         List<StudentDto> studentDtos = students.stream()
                 .map(student -> {

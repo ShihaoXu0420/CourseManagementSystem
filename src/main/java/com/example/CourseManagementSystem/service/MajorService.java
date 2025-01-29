@@ -8,7 +8,9 @@ import com.example.CourseManagementSystem.repository.MajorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -57,5 +59,14 @@ public class MajorService {
             throw new RecordNotFoundException("Major not found");
         }
         majorRepository.delete(majorId);
+    }
+
+    public Map<Integer, String> getMajorMap(int[] ids) {
+        List<Major> majors = majorRepository.findByIds(ids);
+        HashMap<Integer, String> majorMap = new HashMap<>();
+        for (Major major : majors) {
+            majorMap.put(major.getId(), major.getName());
+        }
+        return majorMap;
     }
 }
