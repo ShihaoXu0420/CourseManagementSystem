@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.course_management_system.repository.StudentRepository">
+    <select id="findByIds" parameterType="int[]" resultType="com.example.course_management_system.model.entity.Student">
+        SELECT * FROM students WHERE id IN
+        <foreach item="id" collection="studentIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

@@ -10,6 +10,7 @@ import com.example.course_management_system.repository.MajorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,5 +93,16 @@ public class CourseService {
         }
 
         courseRepository.delete(courseId);
+    }
+
+    public Map<Integer, String> getCourseMap(int[] courseIds) {
+        List<Course> courses = courseRepository.findByIds(courseIds);
+        Map<Integer, String> courseNameMap = new HashMap<>();
+
+        for (Course course : courses) {
+            courseNameMap.put(course.getId(), course.getName());
+        }
+
+        return courseNameMap;
     }
 }

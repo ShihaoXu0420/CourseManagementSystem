@@ -7,6 +7,8 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <mappers>
-        <mapper resource="com/example/CourseManagementSystem/repository/MajorRepository.xml"/>
+        <mapper resource="com/example/course_management_system/repository/MajorRepository.xml"/>
+        <mapper resource="com/example/course_management_system/repository/StudentRepository.xml"/>
+        <mapper resource="com/example/course_management_system/repository/CourseRepository.xml"/>
     </mappers>
 </configuration>

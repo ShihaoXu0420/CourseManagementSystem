@@ -23,4 +23,9 @@ public interface StudentRepository {
 
     @Delete("DELETE FROM students WHERE id = #{studentId}")
     void delete(int studentId);
+
+    List<Student> findByIds(@Param("studentIds") int[] studentIds);
+
+    @Select("SELECT * FROM students WHERE name = #{studentName}")
+    Student findByName(String studentName);
 }
